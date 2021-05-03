@@ -8,8 +8,11 @@ String token = null;
 String login = null;
 String lang = null;
 String country = null;
-String api_link = "http://195.158.20.98";
-String site_link = "http://195.158.20.98";
+String api_link = "http://smartmobile.uz";
+String site_link = "http://smartmobile.uz";
+
+// String api_link = "http://10.94.20.16";
+// String site_link = "http://10.94.20.16";
 Map<String, dynamic> userData;
 var fontSize8 = 0.0213;
 var fontSize10 = 0.027;

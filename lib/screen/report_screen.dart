@@ -22,20 +22,28 @@ class _ReportScreenState extends State<ReportScreen> {
   Color selectedDateStyleColor;
   Color selectedSingleDateDecorationColor;
   String _url;
+  DateFormat formatter = DateFormat("M.yyyy");
 
-  @override
-  void initState() {
-    super.initState();
-    DateFormat formatter = DateFormat("M.yyyy");
-    _selectedDate = formatter.format(DateTime.now());
-    print(_selectedDate);
+  selectedDate(val) {
+    _selectedDate = formatter.format(new DateFormat("yyyy-mm-dd").parse(val));
     _url =
         "${globals.api_link}/action/getUserReport?userId=${globals.userData["userId"]}&month=$_selectedDate";
   }
 
   @override
+  void initState() {
+    super.initState();
+    _selectedDate = formatter.format(DateTime.now());
+    print(_selectedDate);
+    _url =
+        "${globals.api_link}/action/getUserReport?userId=${globals.userData["userId"]}&month=$_selectedDate";
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     var dHeight = MediaQuery.of(context).size.height;
+    var dWidth = MediaQuery.of(context).size.width;
     var appbar = CustomAppBar(
       title: "Отчет",
       centerTitle: true,
@@ -43,6 +51,7 @@ class _ReportScreenState extends State<ReportScreen> {
     return Scaffold(
       appBar: appbar,
       body: Container(
+        height: dHeight - appbar.preferredSize.height - 150,
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
@@ -56,20 +65,19 @@ class _ReportScreenState extends State<ReportScreen> {
                 firstDate: DateTime(2000),
                 lastDate: DateTime(2100),
                 dateLabelText: 'Месяц',
-                onChanged: (val) => print(val),
+                onChanged: (val) => {selectedDate(val)},
                 validator: (val) {
-                  print(val);
                   return null;
                 },
                 onSaved: (val) => print(val),
               ),
               Container(
-                color: Colors.transparent,
-                height: dHeight - appbar.preferredSize.height - 150,
+                height: dHeight + 150,
                 child: WebView(
+                  debuggingEnabled: true,
                   initialUrl: _url,
                 ),
-              )
+              ),
             ],
           ),
         ),

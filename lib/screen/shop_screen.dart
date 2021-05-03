@@ -12,6 +12,7 @@ class ShopScreen extends StatefulWidget {
 class _ShopScreenState extends State<ShopScreen> {
   @override
   Widget build(BuildContext context) {
+    print('${globals.site_link}/action/shop?id=${globals.token}');
     return Container(
       padding: EdgeInsets.only(top: 20),
       child: WebView(
