@@ -49,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Color(0xff54E346),
         onPressed: () {
           if (globals.token != null)
-            Navigator.of(context)
+            Navigator.of(context, rootNavigator: true)
                 .push(MaterialPageRoute(builder: (BuildContext context) {
               return ScanPage();
             }));

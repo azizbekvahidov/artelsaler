@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:artel/globals.dart' as globals;
 import 'package:flutter_date_pickers/flutter_date_pickers.dart';
 import 'package:flutter_date_pickers/flutter_date_pickers.dart' as dp;
+import 'package:webview_flutter/platform_interface.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 
@@ -23,21 +24,24 @@ class _ReportScreenState extends State<ReportScreen> {
   Color selectedSingleDateDecorationColor;
   String _url;
   DateFormat formatter = DateFormat("M.yyyy");
+  WebViewController wbController;
 
   selectedDate(val) {
-    _selectedDate = formatter.format(new DateFormat("yyyy-mm-dd").parse(val));
+    _selectedDate = formatter.format(new DateFormat("yyyy-MM-dd").parse(val));
     _url =
         "${globals.api_link}/action/getUserReport?userId=${globals.userData["userId"]}&month=$_selectedDate";
+    wbController.loadUrl(_url);
+    // wbController?.reload();
+    // setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
     _selectedDate = formatter.format(DateTime.now());
-    print(_selectedDate);
     _url =
         "${globals.api_link}/action/getUserReport?userId=${globals.userData["userId"]}&month=$_selectedDate";
-    setState(() {});
+    // wbController.loadUrl(_url);
   }
 
   @override
@@ -69,13 +73,19 @@ class _ReportScreenState extends State<ReportScreen> {
                 validator: (val) {
                   return null;
                 },
-                onSaved: (val) => print(val),
+                onSaved: (val) {
+                  print(val);
+                },
               ),
               Container(
                 height: dHeight + 150,
                 child: WebView(
-                  debuggingEnabled: true,
-                  initialUrl: _url,
+                  onWebViewCreated: (WebViewController controller) {
+                    wbController = controller;
+                    wbController.loadUrl(_url);
+                  },
+                  // debuggingEnabled: true,
+                  // initialUrl: _url,
                 ),
               ),
             ],
