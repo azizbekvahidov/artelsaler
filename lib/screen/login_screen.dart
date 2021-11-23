@@ -36,10 +36,8 @@ class _LoginScreenState extends State<LoginScreen> {
         "username": phone,
         "password": pass,
       };
-      var response = await Requests.post(
-        url,
-        body: map,
-      );
+      var response = await Requests.post(url,
+          body: map, headers: {"Accept": "application/json"});
       // request.methodPost(map, url);
       if (response.statusCode == 200) {
         // Map<String,dynamic> reply = response.json();
